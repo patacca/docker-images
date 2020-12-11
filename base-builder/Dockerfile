@@ -175,14 +175,18 @@ RUN apt-get update && apt-get full-upgrade -y && \
 
 ENV LLVM_CONFIG=llvm-config
 
+# AFL-cov for coverage info
 RUN git clone https://github.com/vanhauser-thc/afl-cov afl-cov
+RUN export CC=clang && export CXX=clang++ && unset CXXFLAGS && unset CFLAGS && \
+    cd afl-cov && make install && cd ..
+
 RUN git clone https://github.com/AFLplusplus/AFLplusplus.git AFLplusplus
 
 RUN echo 'alias joe="jupp --wordwrap"' >> ~/.bashrc
 RUN echo 'export PS1="[afl++]$PS1"' >> ~/.bashrc
 
 COPY compile compile_afl compile_dataflow compile_libfuzzer compile_honggfuzz \
-    compile_go_fuzzer precompile_honggfuzz srcmap write_labels.py compile_afl-cov \
+    compile_go_fuzzer precompile_honggfuzz srcmap write_labels.py \
     compile_alfplusplus /usr/local/bin/
 
 COPY detect_repo.py /opt/cifuzz/
