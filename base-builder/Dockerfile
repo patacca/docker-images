@@ -187,7 +187,7 @@ RUN echo 'export PS1="[afl++]$PS1"' >> ~/.bashrc
 
 COPY compile compile_afl compile_dataflow compile_libfuzzer compile_honggfuzz \
     compile_go_fuzzer precompile_honggfuzz srcmap write_labels.py \
-    compile_alfplusplus /usr/local/bin/
+    compile_AFLplusplus /usr/local/bin/
 
 COPY detect_repo.py /opt/cifuzz/
 COPY ossfuzz_coverage_runner.go $GOPATH
