@@ -20,7 +20,7 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y libc6-dev binutils libgcc-10-dev && \
+    apt-get install -y libc6-dev binutils libgcc-10-dev libstdc++-10-dev && \
     apt-get autoremove -y
 
 ENV OUT=/out
