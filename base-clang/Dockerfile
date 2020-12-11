@@ -16,7 +16,7 @@
 
 # Docker image with head clang installed.
 
-FROM gcr.io/oss-fuzz-base/base-image
+FROM base-image
 
 # Install newer cmake.
 ENV CMAKE_VERSION 3.18.1

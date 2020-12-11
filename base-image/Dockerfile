@@ -16,7 +16,7 @@
 
 # Base image for all other images.
 
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get upgrade -y && \
