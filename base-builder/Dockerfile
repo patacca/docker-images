@@ -148,8 +148,42 @@ RUN mkdir honggfuzz && \
     tar -xzv --strip-components=1 -f $SRC/oss-fuzz.tar.gz && \
     rm -rf $SRC/oss-fuzz.tar.gz
 
+# AFLplusplus dependencies
+RUN apt-get update && \
+    apt-get -y install --no-install-suggests --no-install-recommends \
+    automake \
+    bison flex \
+    build-essential \
+    git \
+    python3 python3-dev python3-setuptools python-is-python3 \
+    libtool libtool-bin \
+    libglib2.0-dev \
+    wget vim jupp nano bash-completion \
+    apt-utils apt-transport-https ca-certificates gnupg dialog \
+    libpixman-1-dev \
+    gnuplot-nox
+
+#RUN echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main" >> /etc/apt/sources.list && \
+#    wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+
+#RUN echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu focal main" >> /etc/apt/sources.list && \
+#    apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 1E9377A2BA9EF27F
+
+RUN apt-get update && apt-get full-upgrade -y && \
+    apt-get -y install --no-install-suggests --no-install-recommends \
+    gcc-10 g++-10 gcc-10-plugin-dev gcc-10-multilib gdb lcov
+
+ENV LLVM_CONFIG=llvm-config
+
+RUN git clone https://github.com/vanhauser-thc/afl-cov afl-cov
+RUN git clone https://github.com/AFLplusplus/AFLplusplus.git AFLplusplus
+
+RUN echo 'alias joe="jupp --wordwrap"' >> ~/.bashrc
+RUN echo 'export PS1="[afl++]$PS1"' >> ~/.bashrc
+
 COPY compile compile_afl compile_dataflow compile_libfuzzer compile_honggfuzz \
-    compile_go_fuzzer precompile_honggfuzz srcmap write_labels.py /usr/local/bin/
+    compile_go_fuzzer precompile_honggfuzz srcmap write_labels.py compile_afl-cov \
+    compile_alfplusplus /usr/local/bin/
 
 COPY detect_repo.py /opt/cifuzz/
 COPY ossfuzz_coverage_runner.go $GOPATH
