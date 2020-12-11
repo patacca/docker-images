@@ -119,7 +119,7 @@ ENV COVERAGE_FLAGS_dataflow="-fsanitize-coverage=trace-pc-guard,pc-table,bb,trac
 
 # Default sanitizer, fuzzing engine and architecture to use.
 ENV SANITIZER="address"
-ENV FUZZING_ENGINE="libfuzzer"
+ENV FUZZING_ENGINE="AFLplusplus"
 ENV ARCHITECTURE="x86_64"
 
 # DEPRECATED - NEW CODE SHOULD NOT USE THIS. OLD CODE SHOULD STOP. Please use
